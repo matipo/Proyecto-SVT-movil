@@ -1,13 +1,21 @@
-import { Slot } from "expo-router";
-import { View } from "react-native";
+import { Stack, Link } from "expo-router";
+import { View, Text } from "react-native";
+import { TicketIcon } from "components/Icons";
 
-// Importa tus estilos aquí para que estén disponibles en toda la app
-import "../global.css"; // Asegúrate que la ruta al archivo sea correcta (puedes necesitar ajustar los puntos ../)
 
+import "../global.css";
 export default function Layout() {
     return (
-        <View className="flex-1 bg-gray-900 p-4">
-            <Slot />
+        <View className="flex-1">
+            <Stack
+                screenOptions={{
+                    headerStyle: { backgroundColor: 'white' },
+                    headerTintColor: 'red',
+                    headerTitle: () => <Link href="/"><Text className="text-black font-bold text-2xl ">TicketApp</Text></Link>,
+                    headerLeft: () => <Link href="/"><TicketIcon color="red" /></Link>,
+
+                }}
+            />
         </View>
     );
 }
