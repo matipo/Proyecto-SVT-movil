@@ -1,12 +1,14 @@
 
-import { Text, View } from "react-native";
+import { Text, View, ScrollView} from "react-native";
 import { Link } from "expo-router";
 
+import EventList from "components/EventList";
+
 export default function Index() {
-    return <View className="flex-1 justify-center items-center space-y-4">
-        <Text className="">Página de inicio</Text>
-        <Text className="">Página de inicio</Text>
-        <Text className="">Página de inicio</Text>
-        <Link href="/history" className="">Ir al history</Link>
+    return <View className="flex-1 space-y-4">
+        <ScrollView>
+            <Link href="/history" className=" pb-5">Ir al history</Link>
+            <EventList />
+        </ScrollView>
     </View>
 }

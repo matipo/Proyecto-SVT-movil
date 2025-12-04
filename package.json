@@ -11,6 +11,7 @@
     "web": "expo start --web"
   },
   "dependencies": {
+    "axios": "^1.13.2",
     "expo": "^54.0.0",
     "expo-constants": "~18.0.10",
     "expo-linking": "~8.0.9",
