@@ -1,6 +1,6 @@
-import { useState, useEffect } from "react";
-import { View, FlatList, Text } from "react-native";
-import SearchBar from "@/components/SearchBar";
+import { useState, useEffect } from 'react';
+import { View, FlatList, Text } from 'react-native';
+import SearchBar from 'components/SearchBar';
 
 interface Event {
   id: number;
@@ -14,9 +14,9 @@ export default function EventsScreen() {
   // Simulación de carga de datos (pueden venir de tu API)
   useEffect(() => {
     const mockEvents = [
-      { id: 1, name: "Concierto Rock" },
-      { id: 2, name: "Festival de Comida" },
-      { id: 3, name: "Feria Cultural" },
+      { id: 1, name: 'Concierto Rock' },
+      { id: 2, name: 'Festival de Comida' },
+      { id: 3, name: 'Feria Cultural' },
     ];
 
     setEvents(mockEvents);
@@ -29,9 +29,7 @@ export default function EventsScreen() {
       return;
     }
 
-    const results = events.filter((event) =>
-      event.name.toLowerCase().includes(text.toLowerCase())
-    );
+    const results = events.filter((event) => event.name.toLowerCase().includes(text.toLowerCase()));
 
     setFilteredEvents(results);
   };
@@ -43,9 +41,7 @@ export default function EventsScreen() {
       <FlatList
         data={filteredEvents}
         keyExtractor={(item) => item.id.toString()}
-        renderItem={({ item }) => (
-          <Text className="text-lg p-2">{item.name}</Text>
-        )}
+        renderItem={({ item }) => <Text className="p-2 text-lg">{item.name}</Text>}
       />
     </View>
   );

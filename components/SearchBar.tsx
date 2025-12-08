@@ -1,26 +1,18 @@
-import { View, TextInput, TouchableOpacity } from "react-native";
-import { useState } from "react";
-import { CloseIcon, SearchIcon } from "./Icons";
+import { View, TextInput, TouchableOpacity, Keyboard } from 'react-native';
+import { useState } from 'react';
+import { CloseIcon, SearchIcon } from './Icons';
+import { useSearch } from '@/context/SearchContext';
 
-
-interface SearchBarProps {
-  onSearch: (text: string) => void;
-}
-
-export default function SearchBar({ onSearch }: SearchBarProps) {
+export default function SearchBar() {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchText, setSearchText] = useState("");
+  const { searchText, setSearchText } = useSearch();
 
   const toggleSearch = () => {
     if (isSearchOpen) {
-      setSearchText("");
-      onSearch("");
+      setSearchText('');
+      Keyboard.dismiss();
     }
     setIsSearchOpen(!isSearchOpen);
-  };
-
-  const handleSearchSubmit = () => {
-    onSearch(searchText);
   };
 
   if (isSearchOpen) {
@@ -33,10 +25,8 @@ export default function SearchBar({ onSearch }: SearchBarProps) {
           value={searchText}
           onChangeText={(text) => {
             setSearchText(text);
-            onSearch(text);
           }}
           autoFocus={true}
-          onSubmitEditing={handleSearchSubmit}
           returnKeyType="search"
         />
 
