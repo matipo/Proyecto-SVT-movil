@@ -1,4 +1,4 @@
-import MaterialCommunityIcons from '@expo/vector-icons/MaterialCommunityIcons';
+import { MaterialCommunityIcons } from '@expo/vector-icons';
 
 export function HomeIcon(props: any) {
   return <MaterialCommunityIcons name="home-outline" size={30} {...props} />;

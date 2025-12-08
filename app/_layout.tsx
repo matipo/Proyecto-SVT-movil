@@ -2,7 +2,6 @@ import React from 'react';
 import { Stack, Link, usePathname } from 'expo-router';
 import { View, Text } from 'react-native';
 import { TicketIcon } from 'components/Icons';
-import SearchBar from 'components/SearchBar';
 
 import '../global.css';
 
@@ -26,7 +25,7 @@ export default function Layout() {
               <TicketIcon color="red" />
             </Link>
           ),
-          headerRight: () => (isRootScreen ? <SearchBar /> : <View />),
+          headerRight: ()=> <View />,
         }}
       />
     </View>

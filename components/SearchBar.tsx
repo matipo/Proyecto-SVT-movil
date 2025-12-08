@@ -1,20 +1,26 @@
-import React, { useState } from 'react';
-import { View, TextInput, TouchableOpacity } from 'react-native';
-import { SearchIcon, CloseIcon } from 'components/Icons';
+import { View, TextInput, TouchableOpacity } from "react-native";
+import { useState } from "react";
+import { CloseIcon, SearchIcon } from "./Icons";
 
-export default function SearchBar() {
+
+interface SearchBarProps {
+  onSearch: (text: string) => void;
+}
+
+export default function SearchBar({ onSearch }: SearchBarProps) {
   const [isSearchOpen, setIsSearchOpen] = useState(false);
-  const [searchText, setSearchText] = useState('');
+  const [searchText, setSearchText] = useState("");
 
   const toggleSearch = () => {
     if (isSearchOpen) {
-      setSearchText('');
+      setSearchText("");
+      onSearch("");
     }
     setIsSearchOpen(!isSearchOpen);
   };
 
   const handleSearchSubmit = () => {
-    toggleSearch();
+    onSearch(searchText);
   };
 
   if (isSearchOpen) {
@@ -25,11 +31,15 @@ export default function SearchBar() {
           placeholder="Buscar un evento..."
           placeholderTextColor="#888"
           value={searchText}
-          onChangeText={setSearchText}
+          onChangeText={(text) => {
+            setSearchText(text);
+            onSearch(text);
+          }}
           autoFocus={true}
           onSubmitEditing={handleSearchSubmit}
           returnKeyType="search"
         />
+
         <TouchableOpacity onPress={toggleSearch} className="p-2">
           <CloseIcon color="grey" />
         </TouchableOpacity>
