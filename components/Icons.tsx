@@ -27,3 +27,6 @@ export function ClockIcon(props: any) {
 export function LocationIcon(props: any) {
   return <Ionicons name="location-outline" size={30} color="black" {...props} />;
 }
+export function BackIcon(props: any) {
+  return <MaterialCommunityIcons name="keyboard-backspace" size={30} {...props} />;
+}
