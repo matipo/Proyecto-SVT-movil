@@ -1,4 +1,3 @@
-import { useEffect, useRef } from 'react';
 import { Animated, View, Image, Text } from 'react-native';
 import { Link } from 'expo-router';
 
@@ -9,7 +8,11 @@ export default function EventCard({ event }: { event: any }) {
 
   return (
     <View className="flex-1 items-center justify-center">
-      <Link href={`/eventpage`}>
+      <Link
+        href={{
+          pathname: '/eventpage',
+          params: { eventId: event._id },
+        }}>
         <View className="flex-1 rounded-md bg-white p-2 shadow-2xl">
           <Image
             source={{ uri: imageUrl }}
