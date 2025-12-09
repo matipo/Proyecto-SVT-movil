@@ -5,12 +5,8 @@ import { useSearch } from '@/context/SearchContext';
 import EventCard from './EventCard';
 import { getEvents } from '../src/api/api';
 
-interface EventData {
-  _id: string;
-  name: string;
-  image: string;
-  date: string;
-}
+//Interface
+import { EventData } from 'types/event';
 
 export default function EventList() {
   const [events, setEvents] = useState<EventData[]>([]);

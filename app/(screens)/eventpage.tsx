@@ -3,19 +3,15 @@ import { useLocalSearchParams } from 'expo-router';
 import { useEffect, useState } from 'react';
 import { View, Text, ActivityIndicator, Image } from 'react-native';
 
-interface EventData {
-  _id: string;
-  name: string;
-  image: string;
-  date: string;
-}
+import { CalendarIcon, LocationIcon, ClockIcon } from 'components/Icons';
+
+//Interface
+import { EventData } from 'types/event';
 
 export default function EventPage() {
   const { eventId } = useLocalSearchParams();
   const [event, setEvent] = useState<EventData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
-
-  console.log(eventId);
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -44,9 +40,38 @@ export default function EventPage() {
     );
   }
   return (
-    <View>
-      <View></View>
-      <Text>{event?.name}</Text>
+    <View className="flex-1 bg-white">
+      <View className="h-[250px] w-full bg-gray-200">
+        <Image
+          source={{ uri: event?.image || 'https://placehold.co/600x400/png' }}
+          className="h-full w-full object-cover"
+        />
+      </View>
+
+      <View className="p-4">
+        <Text className="mb-4 text-3xl font-bold text-gray-900">{event?.name}</Text>
+
+        <View className="flex-row flex-wrap">
+          <View className="mb-3 w-1/2 flex-row items-center pr-2">
+            <CalendarIcon color="red" size={25} />
+            <Text className="ml-2 text-base text-gray-600">
+              {event?.date ? new Date(event.date).toLocaleDateString() : 'N/A'}
+            </Text>
+          </View>
+
+          <View className="mb-3 w-1/2 flex-row items-center pr-2">
+            <ClockIcon color="red" size={25} />
+            <Text className="ml-2 text-base text-gray-600">
+              {event?.date ? new Date(event.date).toLocaleTimeString() : 'N/A'}
+            </Text>
+          </View>
+
+          <View className="mb-3 w-1/2 flex-row items-center pr-2">
+            <LocationIcon color="red" size={25} />
+            <Text className="ml-2 text-base text-gray-600">{event?.location}</Text>
+          </View>
+        </View>
+      </View>
     </View>
   );
 }
