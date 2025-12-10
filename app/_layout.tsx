@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react';
 import { Stack, Link, usePathname, useRouter } from 'expo-router';
-import { View, Text, Pressable } from 'react-native';
+import { View, Text, Pressable, TouchableOpacity } from 'react-native';
 import { BackIcon, TicketIcon } from 'components/Icons';
 import { SearchProvider } from '@/context/SearchContext';
 
@@ -24,24 +24,24 @@ export default function Layout() {
       <View className="flex-1">
         <Stack
           screenOptions={{
+            title: 'TicketApp',
             headerStyle: { backgroundColor: 'white' },
             headerTintColor: 'red',
-            headerTitle: () => (
-              <Link href="/">
-                <Text className="text-2xl font-bold text-black ">TicketApp</Text>
-              </Link>
-            ),
+            headerTitleAlign: 'center',
+
             headerLeft: () =>
               pathback ? (
-                <Pressable onPress={handleBackPress}>
+                <TouchableOpacity onPress={handleBackPress}>
                   <BackIcon color="red" />
-                </Pressable>
+                </TouchableOpacity>
               ) : (
                 <TicketIcon color="red" />
               ),
             headerRight: () => (isRootScreen ? <SearchBar /> : <View />), //Funcion para mostrar el icono de SearchBar en el path "/"
           }}
-        />
+
+
+        ></Stack>
       </View>
     </SearchProvider>
   );

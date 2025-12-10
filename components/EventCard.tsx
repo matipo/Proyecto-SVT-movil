@@ -24,7 +24,7 @@ export default function EventCard({ event }: { event: any }) {
             pathname: '/eventpage',
             params: { eventId: event._id },
           }}>
-          <View className="w-[360px] rounded-md bg-white p-2 shadow-2xl">
+          <View className="w-[360px] rounded-sm bg-white p-2  shadow-sm shadowrounded-md">
             <Image
               source={{ uri: imageUrl }}
               className="h-[180px] w-full bg-gray-500 object-scale-down"

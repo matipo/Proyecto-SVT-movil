@@ -1,7 +1,7 @@
 import { getEventId } from '@/api/api';
-import { useLocalSearchParams } from 'expo-router';
+import { useLocalSearchParams, Stack } from 'expo-router';
 import { useEffect, useState } from 'react';
-import { View, Text, ActivityIndicator, Image } from 'react-native';
+import { View, Text, ActivityIndicator, Image, ScrollView } from 'react-native';
 
 import { CalendarIcon, LocationIcon, ClockIcon } from 'components/Icons';
 
@@ -13,6 +13,8 @@ export default function EventPage() {
   const { eventId } = useLocalSearchParams();
   const [event, setEvent] = useState<EventData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
+
+
 
   useEffect(() => {
     const fetchEvent = async () => {
@@ -41,39 +43,55 @@ export default function EventPage() {
     );
   }
   return (
-    <View className="flex-1 bg-white">
-      <View className="h-[250px] w-full bg-gray-200">
-        <Image
-          source={{ uri: event?.image || 'https://placehold.co/600x400/png' }}
-          className="h-full w-full object-cover"
-        />
-      </View>
+    <>
+      <Stack.Screen
+        options={{
+          title: 'Detalles',
+          headerStyle: { backgroundColor: 'white' },
 
-      <View className="p-4">
-        <Text className="mb-4 text-3xl font-bold text-gray-900">{event?.name}</Text>
-
-        <View className="flex-row flex-wrap">
-          <View className="mb-3 w-1/2 flex-row items-center pr-2">
-            <CalendarIcon color="red" size={25} />
-            <Text className="ml-2 text-base text-gray-600">
-              {event?.date ? new Date(event.date).toLocaleDateString() : 'N/A'}
-            </Text>
+          headerTintColor: 'red',
+          headerTitleStyle: {
+            fontWeight: 'bold',
+          },
+          headerTitleAlign: 'center',
+        }}
+      />
+      <ScrollView>
+        <View className="flex-1 bg-white">
+          <View className="h-[250px] w-full bg-gray-200">
+            <Image
+              source={{ uri: event?.image || 'https://placehold.co/600x400/png' }}
+              className="h-full w-full object-cover"
+            />
           </View>
 
-          <View className="mb-3 w-1/2 flex-row items-center pr-2">
-            <ClockIcon color="red" size={25} />
-            <Text className="ml-2 text-base text-gray-600">
-              {event?.date ? new Date(event.date).toLocaleTimeString() : 'N/A'}
-            </Text>
-          </View>
+          <View className="p-4">
+            <Text className="mb-4 text-3xl font-bold text-gray-900">{event?.name}</Text>
 
-          <View className="mb-3 w-1/2 flex-row items-center pr-2">
-            <LocationIcon color="red" size={25} />
-            <Text className="ml-2 text-base text-gray-600">{event?.location}</Text>
+            <View className="flex-row flex-wrap">
+              <View className="mb-3 w-1/2 flex-row items-center pr-2">
+                <CalendarIcon color="red" size={25} />
+                <Text className="ml-2 text-base text-gray-600">
+                  {event?.date ? new Date(event.date).toLocaleDateString() : 'N/A'}
+                </Text>
+              </View>
+
+              <View className="mb-3 w-1/2 flex-row items-center pr-2">
+                <ClockIcon color="red" size={25} />
+                <Text className="ml-2 text-base text-gray-600">
+                  {event?.date ? new Date(event.date).toLocaleTimeString() : 'N/A'}
+                </Text>
+              </View>
+
+              <View className="mb-3 w-1/2 flex-row items-center pr-2">
+                <LocationIcon color="red" size={25} />
+                <Text className="ml-2 text-base text-gray-600">{event?.location}</Text>
+              </View>
+            </View>
+            <PurchaseTickets event={event} />
           </View>
         </View>
-        <PurchaseTickets event={event} />
-      </View>
-    </View>
+      </ScrollView>
+    </>
   );
 }
