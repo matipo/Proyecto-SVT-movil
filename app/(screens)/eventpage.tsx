@@ -7,6 +7,7 @@ import { CalendarIcon, LocationIcon, ClockIcon } from 'components/Icons';
 
 //Interface
 import { EventData } from 'types/event';
+import PurchaseTickets from 'components/PurchaseTickets';
 
 export default function EventPage() {
   const { eventId } = useLocalSearchParams();
@@ -71,6 +72,7 @@ export default function EventPage() {
             <Text className="ml-2 text-base text-gray-600">{event?.location}</Text>
           </View>
         </View>
+        <PurchaseTickets event={event} />
       </View>
     </View>
   );
