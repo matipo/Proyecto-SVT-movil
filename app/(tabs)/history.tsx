@@ -1,11 +1,12 @@
 import { useCallback, useState } from 'react';
 import { View, Text, ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-import { useFocusEffect, Stack } from 'expo-router';
+import { useFocusEffect } from 'expo-router';
 
 interface PurchaseHistoryItem {
   reservation_id: string;
   eventId: string;
+  eventName: string;
   qty: number;
   type: string;
   totalAmount: number;
@@ -26,7 +27,6 @@ export default function History() {
           setHistory(data);
         } catch (err) {
           console.log('Error cargando historial:', err);
-          setHistory([]);
         }
       };
       load();
@@ -40,20 +40,27 @@ export default function History() {
       {history.length === 0 ? (
         <Text className="opacity-60">No hay compras registradas.</Text>
       ) : (
-        history.map((p, index) => (
-          <View key={index} className="mb-4 rounded-xl border border-gray-300 bg-white p-4">
-            <Text className="mb-2 text-lg font-bold">Compra #{index + 1}</Text>
+        history
+          .slice()
+          .reverse() 
+          .map((p, index) => (
+            <View key={index} className="mb-4 rounded-xl border border-gray-300 bg-white p-4">
+              <Text className="mb-2 text-lg font-bold">
+                Compra #{index + 1}
+              </Text>
 
-            <Text className="text-base">ID: {p.reservation_id}</Text>
-            <Text className="text-base">Evento: {p.eventId}</Text>
-            <Text className="text-base">Cantidad: {p.qty}</Text>
-            <Text className="text-base">Tipo: {p.type}</Text>
-            <Text className="text-base">Total: ${p.totalAmount.toLocaleString('es-CL')}</Text>
-            <Text className="text-base">Comprador: {p.buyerName}</Text>
-            <Text className="text-base">Correo: {p.buyerEmail}</Text>
-            <Text className="text-base">Fecha: {p.date}</Text>
-          </View>
-        ))
+              <Text className="text-base">ID: {p.reservation_id}</Text>
+              <Text className="text-base">Evento: {p.eventName}</Text>
+              <Text className="text-base">Cantidad: {p.qty}</Text>
+              <Text className="text-base">Tipo: {p.type}</Text>
+              <Text className="text-base">
+                Total: ${p.totalAmount.toLocaleString('es-CL')}
+              </Text>
+              <Text className="text-base">Comprador: {p.buyerName}</Text>
+              <Text className="text-base">Correo: {p.buyerEmail}</Text>
+              <Text className="text-base">Fecha: {p.date}</Text>
+            </View>
+          ))
       )}
     </ScrollView>
   );

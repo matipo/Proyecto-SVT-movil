@@ -32,6 +32,12 @@ export const getEventId = async (id: string) => {
   return response.data;
 };
 
+export const getEventName = async (id:string) => {
+  const response = await api.get<EventData>(`/events/${id}`)
+  return response.data.name
+}
+
+
 //Funcion para crear una reservacion
 export const postReservation = async (payload: ReservationPayload) => {
   try {
