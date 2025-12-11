@@ -101,15 +101,11 @@ export default function PurchaseTickets({ event }: { event: any }) {
       <Link
         // Esta es la URL y los parámetros de navegación
         href={{
-          pathname: '/checkoutpage',
+          pathname: '/reservationpage',
           params: { eventId: event._id, qty: count, type: ticketType },
         }}
         // Clase para el contenedor del enlace
-        className="mt-4 flex w-full justify-center rounded-lg bg-red-600 px-4 py-3 active:bg-red-700"
-        // Usa `asChild` si quieres pasar el estilo a un componente hijo, pero aquí lo aplicamos directamente.
-        // Si usas Expo Router, la clase se aplica directamente al componente Link/Pressable.
-      >
-        {/* El texto es el único hijo. El estilo del botón se aplica al Link. */}
+        className="mt-4 flex w-full justify-center rounded-lg bg-red-600 px-4 py-3 active:bg-red-700">
         <Text className="text-center text-lg font-bold text-white">Comprar Entradas</Text>
       </Link>
     </View>

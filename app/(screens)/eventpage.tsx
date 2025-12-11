@@ -14,8 +14,6 @@ export default function EventPage() {
   const [event, setEvent] = useState<EventData | null>(null);
   const [isLoading, setIsLoading] = useState(true);
 
-
-
   useEffect(() => {
     const fetchEvent = async () => {
       setIsLoading(true);
