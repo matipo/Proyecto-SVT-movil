@@ -1,16 +1,14 @@
 import { useLocalSearchParams } from 'expo-router';
 import { View, Text, ActivityIndicator, Alert, TextInput, Pressable } from 'react-native';
 import { useEffect, useState, useCallback } from 'react';
-import { router } from "expo-router";
+import { router } from 'expo-router';
 
 // API
 import { postReservation, getTicketPrice } from '@/api/api';
 import axios from 'axios';
 
-// Types
 import { ReservationPayload, ReservationResponse } from 'types/reservation';
 
-// Components
 import CountdownTimer from 'components/CountdownTimer';
 import ModalContainer from 'components/ModalContainerProps';
 
@@ -55,17 +53,14 @@ export default function ReservationPage() {
 
       handleCloseModal();
 
-
       router.push({
-        pathname: "/checkoutpage",
+        pathname: '/checkoutpage',
         params: { purchase: JSON.stringify(purchase) },
       });
-
     } catch (err) {
-      console.log("Error en checkout:", err);
-      Alert.alert("Error", "Hubo un problema al procesar el pago.");
+      console.log('Error en checkout:', err);
+      Alert.alert('Error', 'Hubo un problema al procesar el pago.');
     }
-
   }, [reservation, totalAmount, buyerName, buyerEmail, handleCloseModal]);
 
   const handlePurchase = useCallback(() => {
@@ -82,8 +77,8 @@ export default function ReservationPage() {
       return;
     }
 
-    if (!buyerEmail.includes("@")) {
-      Alert.alert("Correo inválido", "Ingresa un correo electrónico válido.");
+    if (!buyerEmail.includes('@')) {
+      Alert.alert('Correo inválido', 'Ingresa un correo electrónico válido.');
       return;
     }
 
@@ -188,10 +183,10 @@ export default function ReservationPage() {
             {ticketPrice !== null && (
               <>
                 <Text className="mt-2 text-sm font-semibold text-gray-700">
-                  Precio Unitario: ${ticketPrice.toLocaleString("es-CL")}
+                  Precio Unitario: ${ticketPrice.toLocaleString('es-CL')}
                 </Text>
                 <Text className="mt-1 text-lg font-extrabold text-gray-800">
-                  Total a Pagar: ${totalAmount!.toLocaleString("es-CL")}
+                  Total a Pagar: ${totalAmount!.toLocaleString('es-CL')}
                 </Text>
               </>
             )}
@@ -222,11 +217,11 @@ export default function ReservationPage() {
 
         <View className="w-full border-t border-gray-200 bg-white px-5 py-4 shadow-xl">
           <Pressable
-            className={`rounded-lg p-4 shadow-md ${isExpired || totalAmount === null ? 'bg-red-400' : 'bg-red-600'
-              }`}
+            className={`rounded-lg p-4 shadow-md ${
+              isExpired || totalAmount === null ? 'bg-red-400' : 'bg-red-600'
+            }`}
             onPress={handlePurchase}
-            disabled={isExpired || totalAmount === null}
-          >
+            disabled={isExpired || totalAmount === null}>
             <Text className="text-center text-xl font-bold text-white">
               {isExpired
                 ? 'Reserva Expirada'
