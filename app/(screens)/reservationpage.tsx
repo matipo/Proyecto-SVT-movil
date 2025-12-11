@@ -1,9 +1,11 @@
 import { useLocalSearchParams } from 'expo-router';
 import { View, Text, ActivityIndicator, Alert, TextInput, Pressable } from 'react-native';
 import { useEffect, useState, useCallback } from 'react';
+import { router } from "expo-router";
 
 // API
 import { postReservation, getTicketPrice } from '@/api/api';
+import axios from 'axios';
 
 // Types
 import { ReservationPayload, ReservationResponse } from 'types/reservation';
@@ -33,18 +35,39 @@ export default function ReservationPage() {
 
   const totalAmount = ticketPrice !== null ? ticketPrice * qty : null;
 
-  // Cerrar modal
   const handleCloseModal = useCallback(() => {
     setModalOn(false);
   }, []);
 
-  // Confirmar pago dentro del modal
-  const handleConfirmPurchase = useCallback(() => {
+  const handleConfirmPurchase = useCallback(async () => {
     if (!reservation || totalAmount === null) return;
-    handleCloseModal();
-  }, [handleCloseModal, reservation, totalAmount]);
 
-  // Botón principal: abrir modal o mostrar errores
+    try {
+      const checkoutResponse = await axios.post(`${process.env.EXPO_PUBLIC_API_URL}/checkout`, {
+        reservation_id: reservation.reservation_id,
+        buyer: {
+          name: buyerName,
+          email: buyerEmail,
+        },
+      });
+
+      const purchase = checkoutResponse.data;
+
+      handleCloseModal();
+
+
+      router.push({
+        pathname: "/checkoutpage",
+        params: { purchase: JSON.stringify(purchase) },
+      });
+
+    } catch (err) {
+      console.log("Error en checkout:", err);
+      Alert.alert("Error", "Hubo un problema al procesar el pago.");
+    }
+
+  }, [reservation, totalAmount, buyerName, buyerEmail, handleCloseModal]);
+
   const handlePurchase = useCallback(() => {
     if (isExpired) {
       Alert.alert(
@@ -59,6 +82,11 @@ export default function ReservationPage() {
       return;
     }
 
+    if (!buyerEmail.includes("@")) {
+      Alert.alert("Correo inválido", "Ingresa un correo electrónico válido.");
+      return;
+    }
+
     if (!reservation || totalAmount === null) {
       Alert.alert('Error', 'Faltan datos de la reserva o el precio.');
       return;
@@ -67,7 +95,6 @@ export default function ReservationPage() {
     setModalOn(true);
   }, [isExpired, buyerName, buyerEmail, reservation, totalAmount]);
 
-  // Crear reserva + traer precio
   useEffect(() => {
     if (hasReserved) return;
 
@@ -99,7 +126,6 @@ export default function ReservationPage() {
         }
       } catch (err) {
         const errorMessage = (err as Error).message || 'Error de red o desconocido.';
-
         let displayMessage = errorMessage;
 
         if (errorMessage.includes('Not enough')) {
@@ -117,7 +143,6 @@ export default function ReservationPage() {
     fetchReservationAndPrice();
   }, [eventId, qty, type, hasReserved]);
 
-  // LOADING
   if (isLoading) {
     return (
       <View className="flex-1 items-center justify-center bg-white p-5">
@@ -127,7 +152,6 @@ export default function ReservationPage() {
     );
   }
 
-  // ERROR
   if (error) {
     return (
       <View className="flex-1 items-center justify-center bg-white p-5">
@@ -135,14 +159,10 @@ export default function ReservationPage() {
           Error al crear la reserva:
         </Text>
         <Text className="mt-1 text-center text-base text-red-500">{error}</Text>
-        <Text className="mt-4 text-center text-base text-gray-700">
-          Por favor, inténtalo de nuevo.
-        </Text>
       </View>
     );
   }
 
-  // RESERVA CREADA
   if (reservation) {
     return (
       <View className="flex-1 justify-between bg-white">
@@ -158,7 +178,6 @@ export default function ReservationPage() {
             </Text>
           </View>
 
-          {/* Detalles */}
           <View className="mt-8 w-full max-w-sm rounded-lg bg-gray-100 p-4 shadow-sm">
             <Text className="mb-2 text-lg font-bold text-gray-800">Detalles del Pedido</Text>
 
@@ -169,16 +188,15 @@ export default function ReservationPage() {
             {ticketPrice !== null && (
               <>
                 <Text className="mt-2 text-sm font-semibold text-gray-700">
-                  Precio Unitario: ${ticketPrice.toFixed(2)}
+                  Precio Unitario: ${ticketPrice.toLocaleString("es-CL")}
                 </Text>
                 <Text className="mt-1 text-lg font-extrabold text-gray-800">
-                  Total a Pagar: ${totalAmount!.toFixed(2)}
+                  Total a Pagar: ${totalAmount!.toLocaleString("es-CL")}
                 </Text>
               </>
             )}
           </View>
 
-          {/* Datos del comprador */}
           <View className="mt-6 w-full max-w-sm">
             <Text className="mb-3 text-base font-bold text-gray-800">Datos del Comprador</Text>
 
@@ -202,14 +220,13 @@ export default function ReservationPage() {
           </View>
         </View>
 
-        {/* BOTÓN PAGAR */}
         <View className="w-full border-t border-gray-200 bg-white px-5 py-4 shadow-xl">
           <Pressable
-            className={`rounded-lg p-4 shadow-md ${
-              isExpired || totalAmount === null ? 'bg-red-400' : 'bg-red-600'
-            }`}
+            className={`rounded-lg p-4 shadow-md ${isExpired || totalAmount === null ? 'bg-red-400' : 'bg-red-600'
+              }`}
             onPress={handlePurchase}
-            disabled={isExpired || totalAmount === null}>
+            disabled={isExpired || totalAmount === null}
+          >
             <Text className="text-center text-xl font-bold text-white">
               {isExpired
                 ? 'Reserva Expirada'
@@ -220,7 +237,6 @@ export default function ReservationPage() {
           </Pressable>
         </View>
 
-        {/* MODAL PAGO */}
         {modalOn && totalAmount !== null && (
           <ModalContainer
             isVisible={modalOn}

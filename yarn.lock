@@ -3111,6 +3111,7 @@ __metadata:
     prettier-plugin-tailwindcss: "npm:^0.5.11"
     react: "npm:19.1.0"
     react-native: "npm:0.81.5"
+    react-native-dropdown-picker: "npm:^5.4.6"
     react-native-picker-select: "npm:^9.3.1"
     react-native-reanimated: "npm:~4.1.1"
     react-native-safe-area-context: "npm:~5.6.0"
@@ -8537,6 +8538,16 @@ __metadata:
     react-native-svg:
       optional: true
   checksum: 10c0/c3be3a785216ce430d32a78f52c76387b4fc38b53b9d66d4cf5e3973f1fe35c801f8f299e6b8c129be9c979ccd3274a35dccf4f8054f46cca3288a3ca77c7a4c
+  languageName: node
+  linkType: hard
+
+"react-native-dropdown-picker@npm:^5.4.6":
+  version: 5.4.6
+  resolution: "react-native-dropdown-picker@npm:5.4.6"
+  peerDependencies:
+    react: "*"
+    react-native: "*"
+  checksum: 10c0/29b29d6168dc71386a0fd9dc5dedebd23cbb7baa977e4f37f6ff6fd13a800628e73e6624d0563b7471cec9a5dd76e196aed0e41d2da4bac8abefacbd1f0eb347
   languageName: node
   linkType: hard
 

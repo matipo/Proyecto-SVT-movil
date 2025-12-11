@@ -25,9 +25,8 @@ export default function PurchaseTickets({ event }: { event: any }) {
     (ticket: any) => ticket.type === ticketType
   );
   const price = selectedTicket ? selectedTicket.price : 0;
-  const subtotal = price * count;
-  const iva = subtotal * 0.19;
-  const total = subtotal + iva;
+  const total = price * count;
+
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
@@ -103,15 +102,6 @@ export default function PurchaseTickets({ event }: { event: any }) {
 
         {/* --- Resumen --- */}
         <View style={{ marginTop: 30, zIndex: 0 }}>
-          <View className="mb-1 flex flex-row justify-between font-medium text-gray-600">
-            <Text>Subtotal</Text>
-            <Text>${new Intl.NumberFormat('es-CL').format(subtotal)}</Text>
-          </View>
-
-          <View className="mb-1 flex flex-row justify-between font-medium text-gray-600">
-            <Text>IVA (19%)</Text>
-            <Text>${new Intl.NumberFormat('es-CL').format(iva)}</Text>
-          </View>
 
           <View className="mt-3 flex flex-row justify-between border-t border-gray-200 pt-3">
             <Text className="text-2xl font-bold text-gray-900">Total</Text>

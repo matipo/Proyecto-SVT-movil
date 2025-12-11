@@ -36,7 +36,6 @@ const SimpleBottomSheet: React.FC<SimpleBottomSheetProps> = ({ isVisible, onClos
 
 const PRESS_DURATION_MS = 1500;
 
-// --- COMPONENTE CORREGIDO ---
 const ModalContainer: React.FC<ModalContainerProps> = ({
   isVisible,
   onClose,
@@ -107,8 +106,8 @@ const ModalContainer: React.FC<ModalContainerProps> = ({
     <SimpleBottomSheet isVisible={isVisible} onClose={onClose}>
       <View className="flex-1 items-center justify-between py-2">
         <View className="w-full items-center">
-          <Text className="mb-2 text-3xl font-extrabold text-blue-600">
-            ${totalAmount.toFixed(2)}
+          <Text className="mb-2 text-3xl font-extrabold text-red-600">
+            ${totalAmount.toLocaleString("es-CL")}
           </Text>
 
           <Text className="mb-8 text-center text-lg text-gray-700">

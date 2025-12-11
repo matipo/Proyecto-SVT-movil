@@ -86,3 +86,31 @@ export const getTicketPrice = async (
     throw new Error('No se pudo obtener el precio del ticket.');
   }
 };
+export const postCheckout = async (
+  reservationId: string,
+  buyer: { name: string; email: string }
+) => {
+  try {
+    const response = await api.post('/checkout', {
+      reservation_id: reservationId,
+      buyer,
+    });
+
+    console.log(`✅ Checkout confirmado para reserva: ${reservationId}`);
+
+    return response.data;
+  } catch (error: any) {
+    if (axios.isAxiosError(error) && error.response) {
+      const msg =
+        error.response.data.detail ||
+        error.response.data.message ||
+        'Error al confirmar el checkout.';
+      console.error('Error en checkout:', msg);
+      throw new Error(msg);
+    } else {
+      console.error('Error inesperado en checkout:', error);
+      throw new Error('Error de red o inesperado al hacer checkout.');
+    }
+  }
+};
+
