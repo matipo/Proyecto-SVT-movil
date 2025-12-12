@@ -11,7 +11,12 @@ npm-debug.*
 web-build/
 
 
-
+# Archivos de entorno
+.env
+.env.local
+.env.development
+.env.testing
+.env.production
 
 ios
 android
